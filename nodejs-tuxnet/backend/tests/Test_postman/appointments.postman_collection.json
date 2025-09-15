@@ -1,0 +1,87 @@
+{
+  "info": {
+    "name": "Appointments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create appointment (client)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{client_token}}" }, {"key":"Content-Type","value":"application/json"}],
+        "url": { "raw": "{{baseUrl}}/appointments", "host": ["{{baseUrl}}"], "path": ["appointments"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"client_id\": \"{{client_id}}\",\n  \"staff_id\": \"{{stylist_id}}\",\n  \"service_id\": \"{{service_id}}\",\n  \"start_at\": \"2025-09-14T10:00:00.000Z\",\n  \"end_at\": \"2025-09-14T10:30:00.000Z\",\n  \"notes\": \"First visit\"\n}"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List my appointments (client)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{client_token}}" }],
+        "url": { "raw": "{{baseUrl}}/appointments", "host": ["{{baseUrl}}"], "path": ["appointments"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Get other’s appointment (client → 403)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{client_token}}" }],
+        "url": { "raw": "{{baseUrl}}/appointments/{{other_appt_id}}", "host": ["{{baseUrl}}"], "path": ["appointments","{{other_appt_id}}"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin list all",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{admin_token}}" }],
+        "url": { "raw": "{{baseUrl}}/appointments?from=2025-09-14T00:00:00.000Z&to=2025-09-21T00:00:00.000Z", "host": ["{{baseUrl}}"], "path": ["appointments"], "query": [ {"key":"from","value":"2025-09-14T00:00:00.000Z"},{"key":"to","value":"2025-09-21T00:00:00.000Z"} ] }
+      },
+      "response": []
+    },
+    {
+      "name": "Update to duplicate time (409)",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Authorization", "value": "Bearer {{client_token}}" }, {"key":"Content-Type","value":"application/json"}],
+        "url": { "raw": "{{baseUrl}}/appointments/{{appt_id}}", "host": ["{{baseUrl}}"], "path": ["appointments","{{appt_id}}"] },
+        "body": { "mode": "raw", "raw": "{\n  \"start_at\": \"2025-09-14T10:00:00.000Z\",\n  \"end_at\": \"2025-09-14T10:30:00.000Z\"\n}" }
+      },
+      "response": []
+    },
+    {
+      "name": "Stylist marks DONE",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Authorization", "value": "Bearer {{stylist_token}}" }, {"key":"Content-Type","value":"application/json"}],
+        "url": { "raw": "{{baseUrl}}/appointments/{{appt_id}}", "host": ["{{baseUrl}}"], "path": ["appointments","{{appt_id}}"] },
+        "body": { "mode": "raw", "raw": "{\n  \"status\": \"DONE\"\n}" }
+      },
+      "response": []
+    },
+    {
+      "name": "Client cancels own appointment",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Authorization", "value": "Bearer {{client_token}}" }, {"key":"Content-Type","value":"application/json"}],
+        "url": { "raw": "{{baseUrl}}/appointments/{{appt_id}}", "host": ["{{baseUrl}}"], "path": ["appointments","{{appt_id}}"] },
+        "body": { "mode": "raw", "raw": "{\n  \"status\": \"CANCELLED\"\n}" }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete appointment (admin or owner)",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{admin_token}}" }],
+        "url": { "raw": "{{baseUrl}}/appointments/{{appt_id}}", "host": ["{{baseUrl}}"], "path": ["appointments","{{appt_id}}"] }
+      },
+      "response": []
+    }
+  ]
+}

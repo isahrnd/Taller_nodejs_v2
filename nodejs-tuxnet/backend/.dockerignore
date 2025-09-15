@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+yarn-error.log
+coverage
+dist/*.map
+tests
+.env
+.DS_Store
+*.local
+**/.git
+

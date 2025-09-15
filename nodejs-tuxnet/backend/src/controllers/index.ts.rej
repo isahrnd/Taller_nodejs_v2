@@ -1,0 +1,4 @@
+diff a/backend/src/controllers/index.ts b/backend/src/controllers/index.ts	(rejected hunks)
+@@ -0,0 +1 @@
++export * from './user.controller'; 
+\ No newline at end of file
