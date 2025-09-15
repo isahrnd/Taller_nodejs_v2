@@ -5,7 +5,7 @@ services:
     rootDir: backend
     plan: free
     autoDeploy: true
-    buildCommand: yarn install --frozen-lockfile && yarn build
+    buildCommand: yarn install --frozen-lockfile --production=false && yarn build
     startCommand: yarn start
     envVars:
       - key: MONGO_URL
